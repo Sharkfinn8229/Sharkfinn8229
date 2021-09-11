@@ -8,6 +8,7 @@ using System.Linq;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
+    [SerializeField] private PlayerManager playerManager;
 
     public static Launcher Instance;
 
@@ -30,6 +31,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connecting to The Master Server...");
         PhotonNetwork.ConnectUsingSettings();
+        Debug.Log(playerManager.char1);
     }
 
     public override void OnConnectedToMaster()
@@ -43,7 +45,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         MenuManager.Instance.OpenMenu("title");
         Debug.Log("Joined Lobby");
-        PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("0000");
     }
 
     public void CreateRoom()
@@ -53,7 +54,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             return;
         }
         PhotonNetwork.CreateRoom(roomNameInputField.text);
-        MenuManager.Instance.OpenMenu("laoding");
+        MenuManager.Instance.OpenMenu("loading");
     }
 
     public override void OnJoinedRoom()
@@ -74,6 +75,15 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
 
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            playerManager.char1 = 0;
+        }
+        else
+        {
+            playerManager.char1 = 1;
+        }
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)

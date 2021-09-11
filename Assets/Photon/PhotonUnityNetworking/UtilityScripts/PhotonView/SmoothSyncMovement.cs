@@ -21,7 +21,7 @@ namespace Photon.Pun.UtilityScripts
     [RequireComponent(typeof(PhotonView))]
     public class SmoothSyncMovement : Photon.Pun.MonoBehaviourPun, IPunObservable
     {
-        public float SmoothingDelay = 5;
+        public float SmoothingDelay = 1;
         public void Awake()
         {
             bool observed = false;
